@@ -238,9 +238,9 @@
   <div class="navbar">
     <div class="logo">AIVORA ICO</div>
 
-    <button class="connect-btn" onclick="connectWallet()">
-      Connect Wallet
-    </button>
+    <button class="connect-btn" id="connectButton" onclick="connectWallet()">
+  Connect Wallet
+</button>
   </div>
 
   <section class="hero">
@@ -427,6 +427,7 @@
         account = accounts[0];
 
         document.getElementById('walletAddress').innerHTML = account;
+        document.getElementById('connectButton').innerHTML = 'Connected';
 
       } else {
 
