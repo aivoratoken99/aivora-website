@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIVORA ICO</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #050816;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: rgba(5, 8, 22, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0,255,255,0.1);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #00ffff;
+    }
+
+    .connect-btn {
+      background: #00ffff;
+      color: black;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hero {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .hero-container {
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      align-items: center;
+    }
+
+    .left h1 {
+      font-size: 60px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .left h1 span {
+      color: #00ffff;
+    }
+
+    .left p {
+      color: #b8b8b8;
+      line-height: 1.7;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      background: #111827;
+      padding: 20px;
+      border-radius: 18px;
+      min-width: 140px;
+      border: 1px solid rgba(0,255,255,0.1);
+    }
+
+    .stat-box h3 {
+      color: #00ffff;
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .card {
+      background: #111827;
+      border-radius: 25px;
+      padding: 30px;
+      border: 1px solid rgba(0,255,255,0.15);
+      box-shadow: 0 0 40px rgba(0,255,255,0.08);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      background: #1f2937;
+      color: white;
+    }
+
+    .active {
+      background: #00ffff;
+      color: black;
+    }
+
+    .wallet-box {
+      background: #1f2937;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      word-break: break-all;
+      text-align: center;
+      color: #00ffff;
+    }
+
+    .info-box {
+      background: #1f2937;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      line-height: 2;
+      font-size: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      background: #1f2937;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .main-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: #00ffff;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .section {
+      padding: 80px 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 42px;
+    }
+
+    .section-title span {
+      color: #00ffff;
+    }
+
+    .tokenomics {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .token-card {
+      background: #111827;
+      padding: 25px;
+      border-radius: 20px;
+      text-align: center;
+      border: 1px solid rgba(0,255,255,0.1);
+    }
+
+    .token-card h2 {
+      color: #00ffff;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #9ca3af;
+    }
+
+    @media(max-width:768px){
+      .left h1 {
+        font-size: 42px;
+      }
+
+      .navbar {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">AIVORA ICO</div>
+
+    <button class="connect-btn" onclick="connectWallet()">
+      Connect Wallet
+    </button>
+  </div>
+
+  <section class="hero">
+    <div class="hero-container">
+
+      <div class="left">
+        <h1>
+          Buy & Sell <br>
+          <span>AIVORA TOKEN</span>
+        </h1>
+
+        <p>
+          Join the future of decentralized finance with AIVORA Token.
+          Buy and sell securely on BNB Smart Chain.
+        </p>
+
+        <div class="stats">
+
+          <div class="stat-box">
+            <h3>BNB</h3>
+            <p>Smart Chain</p>
+          </div>
+
+          <div class="stat-box">
+            <h3>AVO</h3>
+            <p>Token Symbol</p>
+          </div>
+
+          <div class="stat-box">
+            <h3>10000</h3>
+            <p>AVO / BNB</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+
+        <div class="tabs">
+          <button class="tab active" id="buyTab">
+            Buy
+          </button>
+
+          <button class="tab" id="sellTab">
+            Sell
+          </button>
+        </div>
+
+        <div class="wallet-box" id="walletAddress">
+          Wallet Not Connected
+        </div>
+
+        <div class="info-box">
+          <div><b>ICO Contract:</b><br>0x7Ca9dC48e5295BbebcAa3481012ec66d350d9B1E</div>
+          <div><b>Token Contract:</b><br>0xC48Dd3E1Ad84808BE3f2891A96D51A8486F9cEB1</div>
+          <div><b>Network:</b> BNB Smart Chain</div>
+        </div>
+
+        <div id="buySection">
+          <input type="number" id="buyAmount" placeholder="Enter BNB Amount">
+
+          <button class="main-btn" onclick="buyTokens()">
+            Buy AIVORA
+          </button>
+        </div>
+
+        <div id="sellSection" style="display:none;">
+          <input type="number" id="sellAmount" placeholder="Enter Token Amount">
+
+          <button class="main-btn" onclick="sellTokens()">
+            Sell AIVORA
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+
+    <h1 class="section-title">
+      AIVORA <span>Tokenomics</span>
+    </h1>
+
+    <div class="tokenomics">
+
+      <div class="token-card">
+        <h2>50%</h2>
+        <p>ICO Sale</p>
+      </div>
+
+      <div class="token-card">
+        <h2>20%</h2>
+        <p>Liquidity</p>
+      </div>
+
+      <div class="token-card">
+        <h2>15%</h2>
+        <p>Marketing</p>
+      </div>
+
+      <div class="token-card">
+        <h2>15%</h2>
+        <p>Development</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    © 2026 AIVORA TOKEN • Powered by Blockchain Technology
+  </footer>
+
+  <script>
+
+    let web3;
+    let account;
+
+    const icoAddress = "0x7Ca9dC48e5295BbebcAa3481012ec66d350d9B1E";
+
+    const tokenAddress = "0xC48Dd3E1Ad84808BE3f2891A96D51A8486F9cEB1";
+
+    const icoABI = [
+      {
+        "inputs": [],
+        "name": "buyTokens",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "tokenAmount",
+            "type": "uint256"
+          }
+        ],
+        "name": "sellTokens",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ];
+
+    const tokenABI = [
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "spender",
+            "type": "address"
+          },
+          {
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "approve",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "type": "function"
+      }
+    ];
+
+    async function connectWallet() {
+
+      if(window.ethereum){
+
+        web3 = new Web3(window.ethereum);
+
+        await window.ethereum.request({
+          method: 'eth_requestAccounts'
+        });
+
+        const accounts = await web3.eth.getAccounts();
+
+        account = accounts[0];
+
+        document.getElementById('walletAddress').innerHTML = account;
+
+      } else {
+
+        alert('Please Install MetaMask');
+
+      }
+    }
+
+    async function buyTokens() {
+
+      try {
+
+        const amount = document.getElementById('buyAmount').value;
+
+        if(amount <= 0){
+          alert('Enter BNB Amount');
+          return;
+        }
+
+        const contract = new web3.eth.Contract(icoABI, icoAddress);
+
+        await contract.methods.buyTokens().send({
+          from: account,
+          value: web3.utils.toWei(amount, 'ether')
+        });
+
+        alert('AIVORA Purchased Successfully');
+
+      } catch(error){
+
+        console.log(error);
+        alert('Transaction Failed');
+
+      }
+    }
+
+    async function sellTokens() {
+
+      try {
+
+        const amount = document.getElementById('sellAmount').value;
+
+        if(amount <= 0){
+          alert('Enter Token Amount');
+          return;
+        }
+
+        const tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
+
+        const icoContract = new web3.eth.Contract(icoABI, icoAddress);
+
+        await tokenContract.methods.approve(
+          icoAddress,
+          amount
+        ).send({
+          from: account
+        });
+
+        await icoContract.methods.sellTokens(amount).send({
+          from: account
+        });
+
+        alert('AIVORA Sold Successfully');
+
+      } catch(error){
+
+        console.log(error);
+        alert('Sell Failed');
+
+      }
+    }
+
+    document.getElementById('buyTab').onclick = function(){
+
+      document.getElementById('buySection').style.display = 'block';
+      document.getElementById('sellSection').style.display = 'none';
+
+      document.getElementById('buyTab').classList.add('active');
+      document.getElementById('sellTab').classList.remove('active');
+    }
+
+    document.getElementById('sellTab').onclick = function(){
+
+      document.getElementById('buySection').style.display = 'none';
+      document.getElementById('sellSection').style.display = 'block';
+
+      document.getElementById('sellTab').classList.add('active');
+      document.getElementById('buyTab').classList.remove('active');
+    }
+
+  </script>
+
+</body>
+</html>
