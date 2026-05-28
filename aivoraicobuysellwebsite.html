@@ -464,41 +464,56 @@
       }
     }
 
-    async function sellTokens() {
+  async function sellTokens() {
 
-      try {
+  try {
 
-        const amount = document.getElementById('sellAmount').value;
+    const amount =
+      document.getElementById('sellAmount').value;
 
-        if(amount <= 0){
-          alert('Enter Token Amount');
-          return;
-        }
-
-        const tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
-
-        const icoContract = new web3.eth.Contract(icoABI, icoAddress);
-
-        await tokenContract.methods.approve(
-          icoAddress,
-          amount
-        ).send({
-          from: account
-        });
-
-        await icoContract.methods.sellTokens(amount).send({
-          from: account
-        });
-
-        alert('AIVORA Sold Successfully');
-
-      } catch(error){
-
-        console.log(error);
-        alert('Sell Failed');
-
-      }
+    if(amount <= 0){
+      alert('Enter Token Amount');
+      return;
     }
+
+    const tokenContract =
+      new web3.eth.Contract(tokenABI, tokenAddress);
+
+    const icoContract =
+      new web3.eth.Contract(icoABI, icoAddress);
+
+    // CONVERT TOKEN TO WEI
+    const tokenAmount =
+      web3.utils.toWei(amount, 'ether');
+
+    // APPROVE
+
+    await tokenContract.methods.approve(
+      icoAddress,
+      tokenAmount
+    ).send({
+      from: account
+    });
+
+    // SELL
+
+    await icoContract.methods.sellTokens(
+      tokenAmount
+    ).send({
+      from: account
+    });
+
+    alert('AIVORA Sold Successfully');
+
+  } catch(error) {
+
+    console.log(error);
+
+    alert(error.message);
+
+  }
+
+}
 
     document.getElementById('buyTab').onclick = function(){
 
