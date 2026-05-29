@@ -578,11 +578,13 @@
       document.getElementById('sellTab').classList.add('active');
       document.getElementById('buyTab').classList.remove('active');
     }
-window.addEventListener('load', function(){
-
-  loadTokenPrice();
-
-});
+      
+      // LOAD TOKEN PRICE ON PAGE LOAD
+      
+  window.addEventListener('load', function(){
+     loadTokenPrice();
+   });
+      setInterval(loadTokenPrice, 5000);
   </script>
 
 </body>
