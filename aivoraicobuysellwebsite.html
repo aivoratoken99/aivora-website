@@ -366,41 +366,44 @@
     const tokenAddress = "0xC48Dd3E1Ad84808BE3f2891A96D51A8486F9cEB1";
 
     const icoABI = [
-      {
-        "inputs": [],
-        "name": "buyTokens",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "tokenAmount",
-            "type": "uint256"
-          }
-        ],
-        "name": "sellTokens",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      }
 
+  {
+    "inputs": [],
+    "name": "buyTokens",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+
+  {
+    "inputs": [
       {
-  "inputs": [],
-  "name": "tokensPerBNB",
-  "outputs": [
-    {
-      "internalType": "uint256",
-      "name": "",
-      "type": "uint256"
-    }
-  ],
-  "stateMutability": "view",
-  "type": "function"
-}
-    ];
+        "internalType": "uint256",
+        "name": "tokenAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "sellTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+
+  {
+    "inputs": [],
+    "name": "tokensPerBNB",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+
+];
 
     const tokenABI = [
       {
