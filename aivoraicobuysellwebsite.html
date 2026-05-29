@@ -300,7 +300,21 @@
         </div>
 
         <div id="buySection">
-          <input type="number" id="buyAmount" placeholder="Enter BNB Amount">
+         <input
+type="number"
+id="buyAmount"
+placeholder="Enter BNB Amount"
+oninput="calculateBuy()">
+
+<div id="buyResult"
+style="
+margin-bottom:15px;
+color:#00ffff;
+font-size:18px;
+font-weight:bold;
+">
+You Will Receive: 0 AVO
+</div>
 
           <button class="main-btn" onclick="buyTokens()">
             Buy AIVORA
@@ -308,7 +322,21 @@
         </div>
 
         <div id="sellSection" style="display:none;">
-          <input type="number" id="sellAmount" placeholder="Enter Token Amount">
+         <input
+type="number"
+id="sellAmount"
+placeholder="Enter Token Amount"
+oninput="calculateSell()">
+
+<div id="sellResult"
+style="
+margin-bottom:15px;
+color:#00ffff;
+font-size:18px;
+font-weight:bold;
+">
+You Will Receive: 0 BNB
+</div>
 
           <button class="main-btn" onclick="sellTokens()">
             Sell AIVORA
@@ -559,6 +587,54 @@
     console.log(error);
 
     alert(error.message);
+
+  }
+
+}
+    function calculateBuy(){
+
+  const bnb =
+    document.getElementById('buyAmount').value;
+
+  const price =
+    document.getElementById('tokenPrice').innerText
+    .replace(/,/g,'');
+
+  if(bnb && price){
+
+    const total =
+      parseFloat(bnb) * parseFloat(price);
+
+    document.getElementById(
+      'buyResult'
+    ).innerHTML =
+      'You Will Receive: ' +
+      Number(total).toLocaleString() +
+      ' AVO';
+
+  }
+
+}
+    function calculateSell(){
+
+  const token =
+    document.getElementById('sellAmount').value;
+
+  const price =
+    document.getElementById('tokenPrice').innerText
+    .replace(/,/g,'');
+
+  if(token && price){
+
+    const total =
+      parseFloat(token) / parseFloat(price);
+
+    document.getElementById(
+      'sellResult'
+    ).innerHTML =
+      'You Will Receive: ' +
+      total.toFixed(6) +
+      ' BNB';
 
   }
 
