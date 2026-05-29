@@ -322,6 +322,17 @@ Copy
 
 </div>
           <div><b>Network:</b> BNB Smart Chain</div>
+          <div>
+<b>ICO BNB Reserve:</b>
+<span id="icoBNB">0</span>
+BNB
+</div>
+
+<div>
+<b>ICO Token Reserve:</b>
+<span id="icoToken">0</span>
+AVO
+</div>
           <div><b>BNB Balance:</b>
 <span id="bnbBalance">0</span>
 </div>
@@ -623,6 +634,62 @@ async function loadBalances(){
   }
 
 }
+    async function loadICOReserves(){
+
+  try{
+
+    // ICO BNB BALANCE
+
+    const icoBalance =
+      await web3.eth.getBalance(
+        icoAddress
+      );
+
+    const formattedBNB =
+      web3.utils.fromWei(
+        icoBalance,
+        'ether'
+      );
+
+    document.getElementById(
+      'icoBNB'
+    ).innerHTML =
+      parseFloat(formattedBNB)
+      .toFixed(4);
+
+    // ICO TOKEN BALANCE
+
+    const tokenContract =
+      new web3.eth.Contract(
+        tokenABI,
+        tokenAddress
+      );
+
+    const tokenBalance =
+      await tokenContract.methods
+      .balanceOf(icoAddress)
+      .call();
+
+    const formattedToken =
+      web3.utils.fromWei(
+        tokenBalance,
+        'ether'
+      );
+
+    document.getElementById(
+      'icoToken'
+    ).innerHTML =
+      Number(formattedToken)
+      .toLocaleString();
+
+  } catch(error){
+
+    console.log(error);
+
+  }
+
+}
+    
     async function loadBNBPrice(){
 
   try{
@@ -814,6 +881,8 @@ async function loadBalances(){
     setInterval(loadBalances, 5000);
 
 setInterval(loadBNBPrice, 10000);
+    setInterval(loadICOReserves, 5000);
+    
   </script>
 
 </body>
